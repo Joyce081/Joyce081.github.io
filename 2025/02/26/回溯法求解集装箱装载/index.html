@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>joice081 | joice081</title><meta name="author" content="今日上上签"><meta name="copyright" content="今日上上签"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="回溯法求解集装箱装载 求解集装箱问题： 有n个集装箱要装上一艘载重量为W的轮船，其中集装箱i(1&lt;&#x3D;i&lt;&#x3D;n)的重量为wi。 在装载体积不受限制的情况下，将尽可能重的集装箱装上轮船，当总重量相同时要求选取集装箱个数尽可能少。 用回溯法编写程序求解。要求采用适当剪枝条件提高效率，左孩子结点剪枝的条件是只能装载满足重量要求的集装箱。  问题分析：（1）全局变量： 将各个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="joice081">
+<meta property="og:url" content="http://example.com/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/index.html">
+<meta property="og:site_name" content="joice081">
+<meta property="og:description" content="回溯法求解集装箱装载 求解集装箱问题： 有n个集装箱要装上一艘载重量为W的轮船，其中集装箱i(1&lt;&#x3D;i&lt;&#x3D;n)的重量为wi。 在装载体积不受限制的情况下，将尽可能重的集装箱装上轮船，当总重量相同时要求选取集装箱个数尽可能少。 用回溯法编写程序求解。要求采用适当剪枝条件提高效率，左孩子结点剪枝的条件是只能装载满足重量要求的集装箱。  问题分析：（1）全局变量： 将各个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/1.jpg">
+<meta property="article:published_time" content="2025-02-26T09:57:56.748Z">
+<meta property="article:modified_time" content="2025-02-26T10:05:14.311Z">
+<meta property="article:author" content="今日上上签">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/1.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "http://example.com/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/",
+  "image": "http://example.com/img/1.jpg",
+  "datePublished": "2025-02-26T09:57:56.748Z",
+  "dateModified": "2025-02-26T10:05:14.311Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "今日上上签",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/%E6%A9%98%E7%8C%AB.svg"><link rel="canonical" href="http://example.com/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'joice081',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/8.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/%E5%A4%B4%E5%83%8F%E7%8C%AB.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">joice081</span></a><a class="nav-page-title" href="/"><span class="site-name">joice081</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-26T09:57:56.748Z" title="发表于 2025-02-26 17:57:56">2025-02-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-26T10:05:14.311Z" title="更新于 2025-02-26 18:05:14">2025-02-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><h2 id="回溯法求解集装箱装载"><a href="#回溯法求解集装箱装载" class="headerlink" title="回溯法求解集装箱装载"></a>回溯法求解集装箱装载</h2><blockquote>
+<p>求解集装箱问题：</p>
+<p>有n个集装箱要装上一艘载重量为W的轮船，其中集装箱i(1&lt;&#x3D;i&lt;&#x3D;n)的重量为wi。</p>
+<p>在装载体积不受限制的情况下，将尽可能重的集装箱装上轮船，当总重量相同时要求选取集装箱<strong>个数尽可能少</strong>。</p>
+<p>用回溯法编写程序求解。要求采用适当剪枝条件提高效率，左孩子结点剪枝的条件是只能装载满足重量要求的集装箱。</p>
+</blockquote>
+<h5 id="问题分析："><a href="#问题分析：" class="headerlink" title="问题分析："></a>问题分析：</h5><p><strong>（1）全局变量：</strong></p>
+<p>将各个集装箱的重量存放在一个数组w中，不用下标0的元素， int w[MAXN]；</p>
+<p>变量n表示集装箱的个数，W表示轮船的重量；</p>
+<p>变量maxw用来存放最优解的总重量；</p>
+<p>整型数组x[MAXN]用来存放最优调度序列；</p>
+<p>变量maxnum存放当前最优调度的集装箱个数。</p>
+<p><strong>（2）回溯函数backtracking参数：</strong></p>
+<p>参数i表示考虑的第i个集装箱；</p>
+<p>tw表示选择的集装箱重量和；</p>
+<p>rw表示剩余集装箱的重量和（初始值等于所有集装箱重量和）；</p>
+<p>数组op表示一个调度，即一个装载方案；</p>
+<p>参数temp存放当前方案的集装箱数量。</p>
+<p><strong>（3）剪枝方式：</strong></p>
+<p>①左分枝剪枝：仅仅扩展满足tw+w[i]&lt;&#x3D;W条件的左孩子结点；</p>
+<p>②右分枝剪枝：仅仅扩展满足tw+rw-w[i]&gt;&#x3D;maxw条件的右孩子结点，即不选择第i个集装箱能找到更优解；</p>
+<p><strong>（4）最优方案选择：</strong></p>
+<p>i&gt;n对应一个可行解（装载集装箱重量和为tw）的叶子结点，将tw与maxw比较选择一个更优的装载方案x。如果tw&#x3D;&#x3D;maxw,比较装载的集装箱个数，选择集装箱个数少的为更优方案。</p>
+<p><strong>JAVA版本</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">public class huiSu &#123;</span><br><span class="line">    public static final int MAXN = 20;</span><br><span class="line">    public static int n = 0, W = 0, maxw = 0, minnum = MAXN;</span><br><span class="line">    public static int[] w = new int[MAXN];</span><br><span class="line">    public static int[] x = new int[MAXN];</span><br><span class="line"></span><br><span class="line">    private static void backtracking(int i, int tw, int rw, int[] op, int temp) &#123;</span><br><span class="line">        if (i &gt; n) &#123;</span><br><span class="line">            if (tw &gt; maxw || (tw == maxw &amp;&amp; temp &lt; minnum)) &#123;</span><br><span class="line">                minnum = temp;</span><br><span class="line">                maxw = tw;</span><br><span class="line">                for (int j = 1; j &lt;= n; j++) &#123;</span><br><span class="line">                    x[j] = op[j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (tw + w[i] &lt;= W) &#123;</span><br><span class="line">                op[i] = 1;</span><br><span class="line">                backtracking(i + 1, tw + w[i], rw - w[i], op, temp + 1);</span><br><span class="line">            &#125;</span><br><span class="line">            if (tw + rw - w[i] &gt;= maxw) &#123;</span><br><span class="line">                op[i] = 0;</span><br><span class="line">                backtracking(i + 1, tw, rw - w[i], op, temp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void printSolution(int n) &#123;</span><br><span class="line">        System.out.println(&quot;最优装载方案：&quot;);</span><br><span class="line">        System.out.print(&quot;选取的集装箱为：[ &quot;);</span><br><span class="line">        for (int j = 1; j &lt;= n; j++) &#123;</span><br><span class="line">            if (x[j] == 1) &#123;</span><br><span class="line">                System.out.print(j + &quot; &quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.print(&quot;]&quot;);</span><br><span class="line">        System.out.println();</span><br><span class="line">        System.out.println(&quot;选取的集装箱总重量为：&quot; + maxw);</span><br><span class="line">        System.out.println(&quot;选取的集装箱个数为：&quot; + minnum);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Scanner sc = new Scanner(System.in);</span><br><span class="line">        int rw = 0;</span><br><span class="line">        System.out.print(&quot;请输入这艘轮船的重量：&quot;);</span><br><span class="line">        W = sc.nextInt();</span><br><span class="line">        System.out.print(&quot;请输入集装箱的个数：&quot;);</span><br><span class="line">        n = sc.nextInt();</span><br><span class="line">        System.out.print(&quot;请输入每个集装箱的重量：&quot;);</span><br><span class="line">        for (int i = 1; i &lt;= n; i++) &#123;</span><br><span class="line">            w[i] = sc.nextInt();</span><br><span class="line">            rw += w[i];</span><br><span class="line">        &#125;</span><br><span class="line">        int[] op = new int[MAXN]; // 初始化操作数组</span><br><span class="line">        backtracking(1, 0, rw, op, 0);</span><br><span class="line">        printSolution(n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>C版本</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">#define MAXN 20</span><br><span class="line">int n = 0, W = 0, maxw = 0, minnum = MAXN;</span><br><span class="line">int w[MAXN];</span><br><span class="line">int x[MAXN];</span><br><span class="line">void backtracking(int i, int tw, int rw, int op[],int temp) &#123;</span><br><span class="line">	if (i &gt; n) &#123;				</span><br><span class="line">		if (tw &gt; maxw || (tw == maxw &amp;&amp; temp &lt; minnum)) &#123;</span><br><span class="line">			minnum = temp; </span><br><span class="line">			maxw = tw;				</span><br><span class="line">			for(int j = 1; j &lt;= n; j++)</span><br><span class="line">				x[j] = op[j];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; else &#123;							</span><br><span class="line">		if (tw + w[i] &lt;= W) &#123;			</span><br><span class="line">			op[i] = 1;		</span><br><span class="line">			backtracking(i + 1, tw + w[i], rw - w[i], op,temp+1);</span><br><span class="line">		&#125;</span><br><span class="line">		if (tw + rw - w[i] &gt;= maxw) &#123;	</span><br><span class="line">			op[i] = 0;             </span><br><span class="line">			backtracking(i + 1, tw, rw - w[i], op,temp);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">void printSolution(int n) &#123;</span><br><span class="line">	cout &lt;&lt; &quot;最优装载方案：&quot; &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; &quot;选取的集装箱为&quot;;</span><br><span class="line">	for (int j = 1; j &lt;= n; j++) &#123;</span><br><span class="line">		if (x[j] == 1) &#123;</span><br><span class="line">			cout &lt;&lt; j&lt;&lt;&quot; &quot;;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;  </span><br><span class="line">	cout &lt;&lt; &quot;选取的集装箱总重量为: &quot; &lt;&lt; maxw &lt;&lt; endl;  </span><br><span class="line">	cout &lt;&lt; &quot;选取的集装箱个数为: &quot; &lt;&lt; minnum &lt;&lt; endl;  </span><br><span class="line">&#125;</span><br><span class="line">int main() &#123;</span><br><span class="line">	int rw = 0;</span><br><span class="line">	cout &lt;&lt; &quot;请输入这艘轮船的重量：&quot;;</span><br><span class="line">	cin &gt;&gt; W;</span><br><span class="line">	cout &lt;&lt; &quot;请输入集装箱的个数：&quot;;</span><br><span class="line">	cin &gt;&gt; n;</span><br><span class="line">	cout &lt;&lt; &quot;请输入每个集装箱的重量：&quot;;</span><br><span class="line">	for (int i = 1; i &lt;= n; i++) &#123;</span><br><span class="line">		cin &gt;&gt; w[i];</span><br><span class="line">		rw += w[i] ;</span><br><span class="line">	&#125;</span><br><span class="line">	int op[MAXN] = &#123;0&#125;; </span><br><span class="line">	backtracking(1, 0, rw, op,0);</span><br><span class="line">	printSolution(n);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>复杂度分析<br>(1)时间复杂度</p>
+<p>回溯函数backtracking的解空间树中有2n+1-1个结点，所以最坏情况下的算法时间复杂度为O(2n);函数printSolution的时间复杂度为O(n)。</p>
+<p>综上所述：时间复杂度为O(2n)。</p>
+<p>(2)空间复杂度</p>
+<p>回溯函数backtracking为递归调用，产生O(n)的栈空间开销；函数printSolution的空间复杂度为O(1)。</p>
+<p>综上所述：空间复杂度为O(n)。</p>
+<p>实验总结<br> 本次实验的过程中遇到过一些问题。其一，在计算每种方案的集装箱数量时，我错误的用全局变量temp来记录，但实际递归、回溯的过程中，集装箱的数量有着较为复杂的增加和减少，应该价将temp作为回溯函数backtracking的参数，这样在每次递归和回溯的过程中对应加1，或者不变。其二，在选择最优方案时，重量相同的情况下，我总是选不到集装箱数量最少的，检查回溯函数的叶子结点部分并未发现错误，最后发现错误出现在右剪枝的判断条件tw + rw - w[i] &gt; maxw，导致相等的条件下的右分支被剪掉，改为tw + rw - w[i] &gt;&#x3D; maxw即可。</p>
+<p>通过本次实验我对回溯法有了更深的理解，递归进行纵向遍历；i是横向遍历，对应每层的元素。同时我更清晰的认识到使用回溯算法的解空间树中的结点数作为算法时间复杂度的分析依据，通常解空间树为子集树时对应算法的时间复杂度为O(2n)。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">今日上上签</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/">http://example.com/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">joice081</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F%E7%8C%AB.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">今日上上签</div><div class="author-info-description">春花秋月何时了，往事知多少</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://blog.csdn.net/L19541216?spm=1000.2115.3001.5343"><i class="fab fa-github"></i><span>跟我来</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Joyce081?tab=repositories" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/mengjiaoz717@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD"><span class="toc-number">1.</span> <span class="toc-text">回溯法求解集装箱装载</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90%EF%BC%9A"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">问题分析：</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/" title="无标题"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无标题"/></a><div class="content"><a class="title" href="/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/" title="无标题">无标题</a><time datetime="2025-02-26T09:57:56.748Z" title="发表于 2025-02-26 17:57:56">2025-02-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 By 今日上上签</div><div class="footer_custom_text">简简单单</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="12px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
