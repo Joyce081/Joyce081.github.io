@@ -1,0 +1,720 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>MerkleTree可视化生成与验证平台 | joice081</title><meta name="author" content="今日上上签"><meta name="copyright" content="今日上上签"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="期末考试要写一个算法相关的web前后端小项目。我花了几天的时间搭建完成，并实现了主要的功能。在较短的时间内完成，主要得益于deepseek的倾力相助。这篇文章主要是对项目总结，具体代码后续会推到github上供大家查阅订正。  一、接口测试（1）与树有关的接口测试 确保数据库中有相关用于测试的数据，以下为本次测试案例中用到的数据  数据库中有ID为2的用户(测试数据中已存在) 数据库中有ID为4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MerkleTree可视化生成与验证平台">
+<meta property="og:url" content="http://example.com/2025/03/03/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/index.html">
+<meta property="og:site_name" content="joice081">
+<meta property="og:description" content="期末考试要写一个算法相关的web前后端小项目。我花了几天的时间搭建完成，并实现了主要的功能。在较短的时间内完成，主要得益于deepseek的倾力相助。这篇文章主要是对项目总结，具体代码后续会推到github上供大家查阅订正。  一、接口测试（1）与树有关的接口测试 确保数据库中有相关用于测试的数据，以下为本次测试案例中用到的数据  数据库中有ID为2的用户(测试数据中已存在) 数据库中有ID为4">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/%E5%93%88%E5%B8%8C%E6%A0%91.png">
+<meta property="article:published_time" content="2025-03-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-25T11:56:44.138Z">
+<meta property="article:author" content="今日上上签">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Butterfly">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/%E5%93%88%E5%B8%8C%E6%A0%91.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "MerkleTree可视化生成与验证平台",
+  "url": "http://example.com/2025/03/03/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/",
+  "image": "http://example.com/image/%E5%93%88%E5%B8%8C%E6%A0%91.png",
+  "datePublished": "2025-03-02T16:00:00.000Z",
+  "dateModified": "2025-06-25T11:56:44.138Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "今日上上签",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/%E6%A9%98%E7%8C%AB.svg"><link rel="canonical" href="http://example.com/2025/03/03/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MerkleTree可视化生成与验证平台',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/8.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/%E5%A4%B4%E5%83%8F%E7%8C%AB.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">joice081</span></a><a class="nav-page-title" href="/"><span class="site-name">MerkleTree可视化生成与验证平台</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">MerkleTree可视化生成与验证平台</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-02T16:00:00.000Z" title="发表于 2025-03-03 00:00:00">2025-03-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-25T11:56:44.138Z" title="更新于 2025-06-25 19:56:44">2025-06-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AE%97%E6%B3%95%E7%B1%BBJavaWeb%E9%A1%B9%E7%9B%AE/">算法类JavaWeb项目</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><blockquote>
+<p>期末考试要写一个算法相关的web前后端小项目。我花了几天的时间搭建完成，并实现了主要的功能。在较短的时间内完成，主要得益于deepseek的倾力相助。这篇文章主要是对项目总结，具体代码后续会推到github上供大家查阅订正。</p>
+</blockquote>
+<h2 id="一、接口测试"><a href="#一、接口测试" class="headerlink" title="一、接口测试"></a>一、接口测试</h2><h3 id="（1）与树有关的接口测试"><a href="#（1）与树有关的接口测试" class="headerlink" title="（1）与树有关的接口测试"></a>（1）与树有关的接口测试</h3><blockquote>
+<p>确保数据库中有相关用于测试的数据，以下为本次测试案例中用到的数据</p>
+<ol>
+<li>数据库中有ID为2的用户(测试数据中已存在)</li>
+<li>数据库中有ID为49的树及其叶子节点（ [“1”, “2”, “3”, “4”, “5”, “6”, “7”, “8”, “9”, “11”, “12”, “13”, “14”, “15”]）</li>
+</ol>
+</blockquote>
+<h4 id="1-创建-Merkle-Tree"><a href="#1-创建-Merkle-Tree" class="headerlink" title="1. 创建 Merkle Tree"></a>1. 创建 Merkle Tree</h4><p><strong>测试用例 1</strong>: 创建有效的 Merkle Tree</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;create</li>
+<li><strong>请求参数</strong>:<ul>
+<li>userId: 2</li>
+<li>treeName: “测试树”</li>
+<li>algorithm: “sha256”</li>
+<li>dataItems: [“data1”, “data2”, “data3”, “data4”]</li>
+</ul>
+</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回创建的树信息，包含正确的rootHash和leafCount</li>
+<li>数据库中有对应的树和叶子节点记录</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 2</strong>: 使用无效算法创建树</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;create</li>
+<li><strong>请求参数</strong>:<ul>
+<li>userId: 2</li>
+<li>treeName: “测试树”</li>
+<li>algorithm: “invalid_algorithm”</li>
+<li>dataItems: [“data1”, “data2”]</li>
+</ul>
+</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 500 或其他错误码</li>
+<li>返回错误信息”不支持的哈希算法”</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 3</strong>: 空数据项创建树</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;create</li>
+<li><strong>请求参数</strong>:<ul>
+<li>userId: 2</li>
+<li>treeName: “空树”</li>
+<li>algorithm: “sha256”</li>
+<li>dataItems: []</li>
+</ul>
+</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 400 或其他错误码</li>
+<li>返回错误信息”数据项不能为空”</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-获取-Merkle-Tree"><a href="#2-获取-Merkle-Tree" class="headerlink" title="2. 获取 Merkle Tree"></a>2. 获取 Merkle Tree</h4><p><strong>测试用例 4</strong>: 获取存在的树</p>
+<ul>
+<li><strong>方法</strong>: GET</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;49</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回ID为49的树信息，包含原始数据列表</li>
+<li>包含正确的rootHash和leafCount</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 5</strong>: 获取不存在的树</p>
+<ul>
+<li><strong>方法</strong>: GET</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;9999</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 404 或其他错误码</li>
+<li>返回错误信息”未找到指定的MerkleTree”</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-获取用户的树列表"><a href="#3-获取用户的树列表" class="headerlink" title="3. 获取用户的树列表"></a>3. 获取用户的树列表</h4><p><strong>测试用例 6</strong>: 获取有树的用户列表</p>
+<ul>
+<li><strong>方法</strong>: GET</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;user&#x2F;2</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回用户2的所有树列表</li>
+<li>列表不为空</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 7</strong>: 获取无树的用户列表</p>
+<ul>
+<li><strong>方法</strong>: GET</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;user&#x2F;999</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回空列表</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-获取验证路径"><a href="#4-获取验证路径" class="headerlink" title="4. 获取验证路径"></a>4. 获取验证路径</h4><p><strong>测试用例 8</strong>: 获取存在的叶子节点验证路径</p>
+<ul>
+<li><strong>方法</strong>: GET</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;proof?treeId&#x3D;49&amp;leafData&#x3D;1</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回验证路径列表</li>
+<li>路径包含正确的兄弟节点和方向信息</li>
+<li>最后一项是根节点</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 9</strong>: 获取不存在的叶子节点验证路径</p>
+<ul>
+<li><strong>方法</strong>: GET</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;proof?treeId&#x3D;49&amp;leafData&#x3D;invalid_data</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 404 或其他错误码</li>
+<li>返回错误信息”叶子节点不存在”</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-验证数据变更"><a href="#5-验证数据变更" class="headerlink" title="5. 验证数据变更"></a>5. 验证数据变更</h4><p><strong>测试用例 10</strong>: 验证未变更的数据</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;verify-change?treeId&#x3D;49</li>
+<li><strong>请求体</strong>: {“originalData”: “1”, “modifiedData”: “1”}</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回结果中isChanged为false</li>
+<li>originalHash和modifiedHash相同</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 11</strong>: 验证已变更的数据</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;verify-change?treeId&#x3D;49</li>
+<li><strong>请求体</strong>: {“originalData”: “1”, “modifiedData”: “changed”}</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回结果中isChanged为true</li>
+<li>originalHash和modifiedHash不同</li>
+</ul>
+</li>
+</ul>
+<h4 id="6-验证整树完整性"><a href="#6-验证整树完整性" class="headerlink" title="6. 验证整树完整性"></a>6. 验证整树完整性</h4><p><strong>测试用例 12</strong>: 验证未篡改的树</p>
+<ul>
+<li><strong>方法</strong>: GET</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;verify-tree?treeId&#x3D;49</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回结果中isValid为true</li>
+<li>storedRootHash和computedRootHash相同</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 13</strong>: 验证篡改后的树(需要先模拟篡改)</p>
+<ul>
+<li><strong>方法</strong>: GET</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;verify-tree?treeId&#x3D;49</li>
+<li><strong>前提</strong>: 手动修改数据库中某个叶子节点的hash_value</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回结果中isValid为false</li>
+<li>storedRootHash和computedRootHash不同</li>
+</ul>
+</li>
+</ul>
+<h4 id="7-检测数据变更"><a href="#7-检测数据变更" class="headerlink" title="7. 检测数据变更"></a>7. 检测数据变更</h4><p><strong>测试用例 14</strong>: 检测无变更的数据</p>
+<ul>
+<li><strong>方法</strong>: GET</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;detect-changes?treeId&#x3D;49</li>
+<li><strong>请求体</strong>: [“1”, “2”, “3”, “4”, “5”, “6”, “7”, “8”, “9”, “11”, “12”, “13”, “14”, “15”]</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回空变更列表</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 15</strong>: 检测有变更的数据</p>
+<ul>
+<li><strong>方法</strong>: GET</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;detect-changes?treeId&#x3D;49</li>
+<li><strong>请求体</strong>: [“changed”, “2”, “3”, “4”, “5”, “6”, “7”, “8”, “9”, “11”, “12”, “13”, “14”, “15”]</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回变更列表，包含position&#x3D;0的变更信息</li>
+</ul>
+</li>
+</ul>
+<h4 id="8-删除树"><a href="#8-删除树" class="headerlink" title="8. 删除树"></a>8. 删除树</h4><p><strong>测试用例 16</strong>: 删除存在的树</p>
+<ul>
+<li><strong>方法</strong>: DELETE</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;49</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回成功信息</li>
+<li>数据库中的树和关联叶子节点被删除</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 17</strong>: 删除不存在的树</p>
+<ul>
+<li><strong>方法</strong>: DELETE</li>
+<li><strong>URL</strong>: &#x2F;api&#x2F;merkle&#x2F;9999</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 404 或其他错误码</li>
+<li>返回错误信息”未找到指定记录”</li>
+</ul>
+</li>
+</ul>
+<h3 id="（2）与用户有关的接口测试"><a href="#（2）与用户有关的接口测试" class="headerlink" title="（2）与用户有关的接口测试"></a>（2）与用户有关的接口测试</h3><h4 id="1-发送验证码接口"><a href="#1-发送验证码接口" class="headerlink" title="1. 发送验证码接口"></a>1. 发送验证码接口</h4><p><strong>测试用例 1</strong>: 发送验证码到有效邮箱</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;user&#x2F;sendVerifyCode</li>
+<li><strong>请求体</strong>: {“email”: “<a href="mailto:&#x74;&#101;&#115;&#116;&#x40;&#x65;&#x78;&#97;&#x6d;&#112;&#x6c;&#101;&#46;&#99;&#111;&#109;">&#x74;&#101;&#115;&#116;&#x40;&#x65;&#x78;&#97;&#x6d;&#112;&#x6c;&#101;&#46;&#99;&#111;&#109;</a>“}</li>
+<li><strong>前提</strong>: <a href="mailto:&#x74;&#101;&#115;&#116;&#64;&#x65;&#x78;&#x61;&#x6d;&#112;&#108;&#x65;&#46;&#x63;&#x6f;&#x6d;">&#x74;&#101;&#115;&#116;&#64;&#x65;&#x78;&#x61;&#x6d;&#112;&#108;&#x65;&#46;&#x63;&#x6f;&#x6d;</a> 未注册</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回”验证码发送成功”</li>
+<li>Redis中存储了验证码(键为”<a href="mailto:&#118;&#101;&#x72;&#105;&#102;&#121;&#95;&#99;&#111;&#x64;&#101;&#x5f;&#116;&#101;&#115;&#116;&#64;&#x65;&#120;&#x61;&#x6d;&#112;&#x6c;&#x65;&#46;&#99;&#111;&#x6d;">&#118;&#101;&#x72;&#105;&#102;&#121;&#95;&#99;&#111;&#x64;&#101;&#x5f;&#116;&#101;&#115;&#116;&#64;&#x65;&#120;&#x61;&#x6d;&#112;&#x6c;&#x65;&#46;&#99;&#111;&#x6d;</a>“)</li>
+<li>收到验证码邮件</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 2</strong>: 发送验证码到已注册邮箱</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;user&#x2F;sendVerifyCode</li>
+<li><strong>请求体</strong>: {“email”: “<a href="mailto:&#116;&#101;&#x73;&#x74;&#48;&#x32;&#64;&#x65;&#120;&#97;&#109;&#x70;&#108;&#x65;&#46;&#99;&#x6f;&#x6d;">&#116;&#101;&#x73;&#x74;&#48;&#x32;&#64;&#x65;&#120;&#97;&#109;&#x70;&#108;&#x65;&#46;&#99;&#x6f;&#x6d;</a>“} (假设已注册)</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 201</li>
+<li>返回”该邮箱已被注册”</li>
+<li>Redis中没有存储验证码</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 3</strong>: 发送验证码到无效邮箱格式</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;user&#x2F;sendVerifyCode</li>
+<li><strong>请求体</strong>: {“email”: “invalid_email”}</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 400</li>
+<li>返回”邮箱格式不正确”</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 4</strong>: 发送验证码到空邮箱</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;user&#x2F;sendVerifyCode</li>
+<li><strong>请求体</strong>: {“email”: “”}</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 400</li>
+<li>返回”邮箱不能为空”</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-用户注册接口"><a href="#2-用户注册接口" class="headerlink" title="2. 用户注册接口"></a>2. 用户注册接口</h4><p><strong>测试用例 5</strong>: 使用有效信息注册</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;user&#x2F;register</li>
+<li><strong>请求体</strong>: <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;newuser&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;password&quot;</span><span class="punctuation">:</span> <span class="string">&quot;123456&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;newuser@example.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;verifyCode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;123456&quot;</span> (假设Redis中存储的验证码为<span class="string">&quot;123456&quot;</span>)</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>前提</strong>: <ul>
+<li>已发送验证码到<a href="mailto:&#110;&#x65;&#x77;&#x75;&#x73;&#101;&#114;&#x40;&#x65;&#120;&#x61;&#x6d;&#112;&#108;&#101;&#46;&#x63;&#x6f;&#x6d;">&#110;&#x65;&#x77;&#x75;&#x73;&#101;&#114;&#x40;&#x65;&#120;&#x61;&#x6d;&#112;&#108;&#101;&#46;&#x63;&#x6f;&#x6d;</a></li>
+<li>Redis中有”<a href="mailto:&#x76;&#101;&#x72;&#105;&#102;&#121;&#x5f;&#x63;&#x6f;&#100;&#x65;&#x5f;&#110;&#101;&#x77;&#x75;&#x73;&#101;&#x72;&#x40;&#x65;&#x78;&#x61;&#x6d;&#112;&#x6c;&#x65;&#x2e;&#99;&#111;&#109;">&#x76;&#101;&#x72;&#105;&#102;&#121;&#x5f;&#x63;&#x6f;&#100;&#x65;&#x5f;&#110;&#101;&#x77;&#x75;&#x73;&#101;&#x72;&#x40;&#x65;&#x78;&#x61;&#x6d;&#112;&#x6c;&#x65;&#x2e;&#99;&#111;&#109;</a>“&#x3D;”123456”</li>
+</ul>
+</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回”注册成功”</li>
+<li>数据库中有新用户记录</li>
+<li>Redis中的验证码被删除</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 6</strong>: 使用错误验证码注册</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;user&#x2F;register</li>
+<li><strong>请求体</strong>: <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;newuser&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;password&quot;</span><span class="punctuation">:</span> <span class="string">&quot;123456&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;newuser@example.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;verifyCode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;wrongcode&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>前提</strong>: Redis中有”<a href="mailto:&#118;&#101;&#x72;&#105;&#x66;&#121;&#95;&#x63;&#x6f;&#x64;&#101;&#x5f;&#x6e;&#101;&#x77;&#x75;&#x73;&#x65;&#x72;&#x40;&#101;&#x78;&#x61;&#109;&#x70;&#108;&#101;&#46;&#99;&#x6f;&#x6d;">&#118;&#101;&#x72;&#105;&#x66;&#121;&#95;&#x63;&#x6f;&#x64;&#101;&#x5f;&#x6e;&#101;&#x77;&#x75;&#x73;&#x65;&#x72;&#x40;&#101;&#x78;&#x61;&#109;&#x70;&#108;&#101;&#46;&#99;&#x6f;&#x6d;</a>“&#x3D;”123456”</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 201</li>
+<li>返回”验证码错误或已过期”</li>
+<li>数据库中没有新记录</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 7</strong>: 使用已注册邮箱注册</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;user&#x2F;register</li>
+<li><strong>请求体</strong>: <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;existing&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;password&quot;</span><span class="punctuation">:</span> <span class="string">&quot;123456&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;test02@example.com&quot;</span><span class="punctuation">,</span> (假设已注册)</span><br><span class="line">  <span class="attr">&quot;verifyCode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;123456&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 201</li>
+<li>返回”用户已存在”</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-用户登录接口"><a href="#3-用户登录接口" class="headerlink" title="3. 用户登录接口"></a>3. 用户登录接口</h4><p><strong>测试用例 8</strong>: 使用正确凭据登录</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;user&#x2F;login</li>
+<li><strong>请求体</strong>: <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;test02@example.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;password&quot;</span><span class="punctuation">:</span> <span class="string">&quot;123456&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>前提</strong>: 数据库中有email&#x3D;”<a href="mailto:&#116;&#101;&#x73;&#x74;&#x30;&#x32;&#64;&#101;&#x78;&#x61;&#109;&#112;&#108;&#x65;&#46;&#x63;&#x6f;&#109;">&#116;&#101;&#x73;&#x74;&#x30;&#x32;&#64;&#101;&#x78;&#x61;&#109;&#112;&#108;&#x65;&#46;&#x63;&#x6f;&#109;</a>“, password&#x3D;”123456”的用户</li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 200</li>
+<li>返回”登录成功”</li>
+<li>返回用户信息</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 9</strong>: 使用错误邮箱登录</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;user&#x2F;login</li>
+<li><strong>请求体</strong>: <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;nonexistent@example.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;password&quot;</span><span class="punctuation">:</span> <span class="string">&quot;123456&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 201</li>
+<li>返回”登录失败”</li>
+</ul>
+</li>
+</ul>
+<p><strong>测试用例 10</strong>: 使用错误密码登录</p>
+<ul>
+<li><strong>方法</strong>: POST</li>
+<li><strong>URL</strong>: &#x2F;user&#x2F;login</li>
+<li><strong>请求体</strong>: <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;test02@example.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;password&quot;</span><span class="punctuation">:</span> <span class="string">&quot;wrongpassword&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>预期结果</strong>:<ul>
+<li>状态码: 201</li>
+<li>返回”登录失败”</li>
+</ul>
+</li>
+</ul>
+<h2 id="二、后端功能与实现逻辑"><a href="#二、后端功能与实现逻辑" class="headerlink" title="二、后端功能与实现逻辑"></a>二、后端功能与实现逻辑</h2><h3 id="（1）用户模块"><a href="#（1）用户模块" class="headerlink" title="（1）用户模块"></a>（1）用户模块</h3><h4 id="1-核心功能"><a href="#1-核心功能" class="headerlink" title="1. 核心功能"></a>1. 核心功能</h4><ul>
+<li><strong>用户注册</strong>：邮箱验证码注册流程</li>
+<li><strong>用户登录</strong>：基于邮箱的简单认证</li>
+<li><strong>邮箱验证</strong>：发送验证码及验证码校验</li>
+<li><strong>邮箱检查</strong>：检查邮箱是否已被注册</li>
+</ul>
+<h4 id="2-实现逻辑"><a href="#2-实现逻辑" class="headerlink" title="2. 实现逻辑"></a>2. 实现逻辑</h4><blockquote>
+<p>注册流程</p>
+<ol>
+<li><p><strong>发送验证码</strong>：</p>
+<ul>
+<li>前端提交邮箱 → 后端验证格式 → 检查是否已注册 → 生成6位随机验证码 → 发送邮件 → 存储到Redis(5分钟有效期)</li>
+</ul>
+</li>
+<li><p><strong>注册验证</strong>：</p>
+<ul>
+<li>用户提交注册信息(含验证码) → 从Redis获取验证码比对 → 验证通过则创建用户 → 删除Redis中的验证码</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h4 id="3-技术实现"><a href="#3-技术实现" class="headerlink" title="3. 技术实现"></a>3. 技术实现</h4><ul>
+<li><strong>验证码生成</strong>：<code>VerifyCodeUtil</code>生成随机数字验证码</li>
+<li><strong>邮件发送</strong>：<code>EmailService</code>使用Spring Mail发送简单邮件</li>
+<li><strong>数据存储</strong>：<ul>
+<li>用户信息：MySQL数据库(<code>user</code>表)</li>
+<li>验证码：Redis缓存(5分钟自动过期)</li>
+</ul>
+</li>
+<li><strong>密码处理</strong>：当前为明文存储(实际项目应加密)</li>
+</ul>
+<h4 id="4-安全控制"><a href="#4-安全控制" class="headerlink" title="4. 安全控制"></a>4. 安全控制</h4><ul>
+<li>邮箱格式正则验证</li>
+<li>验证码时效性控制(5分钟)</li>
+<li>注册前邮箱唯一性检查</li>
+</ul>
+<h3 id="（2）Merkle树模块"><a href="#（2）Merkle树模块" class="headerlink" title="（2）Merkle树模块"></a>（2）Merkle树模块</h3><h4 id="1-核心功能-1"><a href="#1-核心功能-1" class="headerlink" title="1. 核心功能"></a>1. 核心功能</h4><ul>
+<li><strong>树创建</strong>：根据输入数据构建Merkle树</li>
+<li><strong>树查询</strong>：按ID或用户ID查询树信息</li>
+<li><strong>验证路径</strong>：获取叶子节点的验证路径</li>
+<li><strong>数据验证</strong>：<ul>
+<li>单数据变更验证</li>
+<li>整树完整性验证</li>
+<li>数据变更检测</li>
+</ul>
+</li>
+<li><strong>树删除</strong>：删除树及关联叶子节点</li>
+</ul>
+<h4 id="2-实现逻辑-1"><a href="#2-实现逻辑-1" class="headerlink" title="2. 实现逻辑"></a>2. 实现逻辑</h4><blockquote>
+<p>树构建流程</p>
+<ol>
+<li><strong>输入处理</strong>：接收数据项列表和哈希算法类型</li>
+<li><strong>哈希计算</strong>：<ul>
+<li>计算每个叶子节点哈希</li>
+<li>逐层计算父节点哈希(左哈希+右哈希)</li>
+</ul>
+</li>
+<li><strong>数据存储</strong>：<ul>
+<li>树信息存入<code>merkle_trees</code>表(含树结构JSON)</li>
+<li>叶子节点存入<code>leaves</code>表</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h4 id="3-验证机制"><a href="#3-验证机制" class="headerlink" title="3. 验证机制"></a>3. 验证机制</h4><ul>
+<li><strong>单数据验证</strong>：比较原始数据和修改后数据的哈希值</li>
+<li><strong>整树验证</strong>：重新计算树哈希与存储的根哈希比对</li>
+<li><strong>变更检测</strong>：逐个比对当前数据与存储数据的哈希值</li>
+</ul>
+<h4 id="4-技术实现"><a href="#4-技术实现" class="headerlink" title="4. 技术实现"></a>4. 技术实现</h4><ul>
+<li><strong>哈希计算</strong>：<code>MerkleTreeUtil</code>支持SHA256&#x2F;SHA1&#x2F;MD5算法</li>
+<li><strong>树结构存储</strong>：JSON格式存储各层级哈希</li>
+<li><strong>数据关联</strong>：<ul>
+<li>树与用户关联(user_id)</li>
+<li>树与叶子节点关联(tree_id)</li>
+</ul>
+</li>
+<li><strong>事务处理</strong>：树删除操作包含叶子节点的级联删除</li>
+</ul>
+<h3 id="（3）模块间关系"><a href="#（3）模块间关系" class="headerlink" title="（3）模块间关系"></a>（3）模块间关系</h3><ol>
+<li><strong>用户-树关联</strong>：通过<code>user_id</code>建立用户与树的所属关系</li>
+<li><strong>权限控制</strong>：树操作需验证用户权限(当前实现中部分接口已包含user_id参数)</li>
+<li><strong>数据隔离</strong>：用户只能访问自己创建的树</li>
+</ol>
+<h3 id="（4）关键技术点"><a href="#（4）关键技术点" class="headerlink" title="（4）关键技术点"></a>（4）关键技术点</h3><ol>
+<li><strong>Merkle树构建算法</strong>：自底向上逐层哈希计算</li>
+<li><strong>验证路径生成</strong>：从叶子节点到根节点的兄弟节点收集</li>
+<li><strong>JSON处理</strong>：树结构的序列化与反序列化</li>
+<li><strong>事务管理</strong>：关键操作如树删除使用@Transactional</li>
+</ol>
+<h3 id="（5）不足"><a href="#（5）不足" class="headerlink" title="（5）不足"></a>（5）不足</h3><ol>
+<li><strong>用户认证</strong>：增加token 认证</li>
+<li><strong>密码安全</strong>：增加密码加密存储</li>
+<li><strong>数据验证时不能有重复数据值</strong>：</li>
+</ol>
+<p>这个系统实现了完整的用户管理体系和Merkle树构建验证机制，可用于数据完整性验证等场景，各模块功能明确且耦合度低，便于扩展和维护。</p>
+<h2 id="三、前端功能与实现逻辑"><a href="#三、前端功能与实现逻辑" class="headerlink" title="三、前端功能与实现逻辑"></a>三、前端功能与实现逻辑</h2><h3 id="（1）-系统架构"><a href="#（1）-系统架构" class="headerlink" title="（1） 系统架构"></a>（1） 系统架构</h3><p>前端采用Vue 3 + Element Plus + D3.js技术栈，主要包含以下组件：</p>
+<ul>
+<li><strong>App.vue</strong>：根组件，负责全局布局和favicon设置</li>
+<li><strong>LoginRegister.vue</strong>：登录注册页面</li>
+<li><strong>Home.vue</strong>：主功能页面，包含MerkleTree构建、可视化和验证功能</li>
+<li><strong>Personal.vue</strong>：个人中心页面，展示历史记录</li>
+</ul>
+<h3 id="（2）-核心功能模块"><a href="#（2）-核心功能模块" class="headerlink" title="（2） 核心功能模块"></a>（2） 核心功能模块</h3><h4 id="1-用户认证系统"><a href="#1-用户认证系统" class="headerlink" title="1.  用户认证系统"></a>1.  用户认证系统</h4><p><strong>实现逻辑</strong>：</p>
+<ul>
+<li>使用Vuex管理全局认证状态</li>
+<li>路由守卫检查访问权限</li>
+<li>本地存储token和用户信息实现持久化登录</li>
+<li>提供登录、注册、退出功能</li>
+</ul>
+<p><strong>关键代码</strong>：</p>
+<ul>
+<li><code>store/index.js</code>中的auth状态管理</li>
+<li><code>router/index.js</code>中的路由守卫</li>
+<li><code>LoginRegister.vue</code>中的表单验证和API调用</li>
+</ul>
+<h4 id="2-MerkleTree构建与可视化"><a href="#2-MerkleTree构建与可视化" class="headerlink" title="2.  MerkleTree构建与可视化"></a>2.  MerkleTree构建与可视化</h4><p><strong>功能特点</strong>：</p>
+<ul>
+<li>支持多行输入数据构建MerkleTree</li>
+<li>可选择不同哈希算法(SHA-256&#x2F;SHA-1&#x2F;MD5)</li>
+<li>自定义树名称</li>
+<li>基于D3.js的可视化展示</li>
+</ul>
+<p><strong>实现逻辑</strong>：</p>
+<ul>
+<li>数据输入后调用后端API生成MerkleTree</li>
+<li>使用D3.js的树布局算法计算节点位置</li>
+<li>动态渲染树形结构，不同层级使用不同颜色</li>
+<li>支持缩放和下载图片功能</li>
+</ul>
+<p><strong>关键代码</strong>：</p>
+<ul>
+<li><code>Home.vue</code>中的<code>generateMerkleTree</code>和<code>drawTree</code>方法</li>
+<li>D3.js的树布局和数据转换逻辑</li>
+</ul>
+<h4 id="3-数据验证功能"><a href="#3-数据验证功能" class="headerlink" title="3.  数据验证功能"></a>3.  数据验证功能</h4><p><strong>功能特点</strong>：</p>
+<ul>
+<li>叶子节点修改验证</li>
+<li>整棵树完整性验证</li>
+<li>可视化高亮显示验证路径</li>
+</ul>
+<p><strong>实现逻辑</strong>：</p>
+<ul>
+<li>选择叶子节点后获取验证路径</li>
+<li>修改数据后调用验证API</li>
+<li>高亮显示从叶子到根的路径</li>
+<li>使用不同颜色和动画效果突出显示</li>
+</ul>
+<p><strong>关键代码</strong>：</p>
+<ul>
+<li><code>verifyDataChange</code>和<code>verifyEntireTree</code>方法</li>
+<li>高亮节点和连接线的样式处理</li>
+</ul>
+<h4 id="4-历史记录管理"><a href="#4-历史记录管理" class="headerlink" title="4.  历史记录管理"></a>4.  历史记录管理</h4><p><strong>功能特点</strong>：</p>
+<ul>
+<li>查看历史构建的MerkleTree</li>
+<li>删除历史记录</li>
+<li>从历史记录快速恢复</li>
+</ul>
+<p><strong>实现逻辑</strong>：</p>
+<ul>
+<li>调用API获取用户的历史记录列表</li>
+<li>通过路由参数传递历史数据</li>
+<li>提供删除功能调用后端API</li>
+</ul>
+<p><strong>关键代码</strong>：</p>
+<ul>
+<li><code>Personal.vue</code>中的表格展示和操作按钮</li>
+<li><code>loadHistory</code>和<code>deleteTree</code>方法</li>
+</ul>
+<h3 id="（3）技术亮点"><a href="#（3）技术亮点" class="headerlink" title="（3）技术亮点"></a>（3）技术亮点</h3><ol>
+<li><p><strong>响应式设计</strong>：</p>
+<ul>
+<li>使用Vue 3的Composition API组织代码</li>
+<li>动态计算可视化区域高度适应不同屏幕</li>
+</ul>
+</li>
+<li><p><strong>可视化交互</strong>：</p>
+<ul>
+<li>D3.js实现动态树形布局</li>
+<li>节点悬停效果和点击交互</li>
+<li>平滑的缩放动画</li>
+</ul>
+</li>
+<li><p><strong>状态管理</strong>：</p>
+<ul>
+<li>Vuex集中管理认证状态</li>
+<li>本地存储实现持久化登录</li>
+</ul>
+</li>
+<li><p><strong>UI&#x2F;UX优化</strong>：</p>
+<ul>
+<li>Element Plus提供美观的UI组件</li>
+<li>表单验证和错误提示</li>
+<li>加载状态和操作反馈</li>
+</ul>
+</li>
+</ol>
+<h3 id="（4）数据流"><a href="#（4）数据流" class="headerlink" title="（4）数据流"></a>（4）数据流</h3><ol>
+<li><p><strong>用户认证流程</strong>：</p>
+<ul>
+<li>登录&#x2F;注册 → 获取token → 存储到Vuex和localStorage → 路由跳转</li>
+</ul>
+</li>
+<li><p><strong>MerkleTree构建流程</strong>：</p>
+<ul>
+<li>输入数据 → 调用API生成 → 接收树数据 → 可视化渲染</li>
+</ul>
+</li>
+<li><p><strong>验证流程</strong>：</p>
+<ul>
+<li>选择节点 → 获取验证路径 → 修改数据 → 调用验证API → 显示结果</li>
+</ul>
+</li>
+</ol>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>该系统整体设计合理，功能完整，通过可视化方式直观展示了MerkleTree的结构和验证过程，为用户提供了良好的交互体验。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">今日上上签</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/03/03/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/">http://example.com/2025/03/03/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">joice081</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hexo/">Hexo</a><a class="post-meta__tags" href="/tags/Butterfly/">Butterfly</a></div><div class="post-share"><div class="social-share" data-image="/image/%E5%93%88%E5%B8%8C%E6%A0%91.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/" title="回溯法求解集装箱装载"><img class="cover" src="/image/2.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">回溯法求解集装箱装载</div></div><div class="info-2"><div class="info-item-1">回溯法求解集装箱装载 求解集装箱问题： 有n个集装箱要装上一艘载重量为W的轮船，其中集装箱i(1&lt;&#x3D;i&lt;&#x3D;n)的重量为wi。 在装载体积不受限制的情况下，将尽可能重的集装箱装上轮船，当总重量相同时要求选取集装箱个数尽可能少。 用回溯法编写程序求解。要求采用适当剪枝条件提高效率，左孩子结点剪枝的条件是只能装载满足重量要求的集装箱。  问题分析：（1）全局变量： 将各个集装箱的重量存放在一个数组w中，不用下标0的元素， int...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/" title="回溯法求解集装箱装载"><img class="cover" src="/image/2.jpeg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-26</div><div class="info-item-2">回溯法求解集装箱装载</div></div><div class="info-2"><div class="info-item-1">回溯法求解集装箱装载 求解集装箱问题： 有n个集装箱要装上一艘载重量为W的轮船，其中集装箱i(1&lt;&#x3D;i&lt;&#x3D;n)的重量为wi。 在装载体积不受限制的情况下，将尽可能重的集装箱装上轮船，当总重量相同时要求选取集装箱个数尽可能少。 用回溯法编写程序求解。要求采用适当剪枝条件提高效率，左孩子结点剪枝的条件是只能装载满足重量要求的集装箱。  问题分析：（1）全局变量： 将各个集装箱的重量存放在一个数组w中，不用下标0的元素， int...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F%E7%8C%AB.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">今日上上签</div><div class="author-info-description">春花秋月何时了，往事知多少</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://blog.csdn.net/L19541216?spm=1000.2115.3001.5343"><i class="fab fa-github"></i><span>跟我来</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Joyce081?tab=repositories" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/mengjiaoz717@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">一、接口测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E4%B8%8E%E6%A0%91%E6%9C%89%E5%85%B3%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95"><span class="toc-number">1.1.</span> <span class="toc-text">（1）与树有关的接口测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA-Merkle-Tree"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 创建 Merkle Tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%8E%B7%E5%8F%96-Merkle-Tree"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. 获取 Merkle Tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E7%9A%84%E6%A0%91%E5%88%97%E8%A1%A8"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 获取用户的树列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E8%8E%B7%E5%8F%96%E9%AA%8C%E8%AF%81%E8%B7%AF%E5%BE%84"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. 获取验证路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E9%AA%8C%E8%AF%81%E6%95%B0%E6%8D%AE%E5%8F%98%E6%9B%B4"><span class="toc-number">1.1.5.</span> <span class="toc-text">5. 验证数据变更</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E9%AA%8C%E8%AF%81%E6%95%B4%E6%A0%91%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="toc-number">1.1.6.</span> <span class="toc-text">6. 验证整树完整性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E6%A3%80%E6%B5%8B%E6%95%B0%E6%8D%AE%E5%8F%98%E6%9B%B4"><span class="toc-number">1.1.7.</span> <span class="toc-text">7. 检测数据变更</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-%E5%88%A0%E9%99%A4%E6%A0%91"><span class="toc-number">1.1.8.</span> <span class="toc-text">8. 删除树</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E4%B8%8E%E7%94%A8%E6%88%B7%E6%9C%89%E5%85%B3%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95"><span class="toc-number">1.2.</span> <span class="toc-text">（2）与用户有关的接口测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8F%91%E9%80%81%E9%AA%8C%E8%AF%81%E7%A0%81%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 发送验证码接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%94%A8%E6%88%B7%E6%B3%A8%E5%86%8C%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 用户注册接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 用户登录接口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%90%8E%E7%AB%AF%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91"><span class="toc-number">2.</span> <span class="toc-text">二、后端功能与实现逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97"><span class="toc-number">2.1.</span> <span class="toc-text">（1）用户模块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-number">2.1.1.</span> <span class="toc-text">1. 核心功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91"><span class="toc-number">2.1.2.</span> <span class="toc-text">2. 实现逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.1.3.</span> <span class="toc-text">3. 技术实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%AE%89%E5%85%A8%E6%8E%A7%E5%88%B6"><span class="toc-number">2.1.4.</span> <span class="toc-text">4. 安全控制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89Merkle%E6%A0%91%E6%A8%A1%E5%9D%97"><span class="toc-number">2.2.</span> <span class="toc-text">（2）Merkle树模块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">1. 核心功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91-1"><span class="toc-number">2.2.2.</span> <span class="toc-text">2. 实现逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E9%AA%8C%E8%AF%81%E6%9C%BA%E5%88%B6"><span class="toc-number">2.2.3.</span> <span class="toc-text">3. 验证机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.4.</span> <span class="toc-text">4. 技术实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89%E6%A8%A1%E5%9D%97%E9%97%B4%E5%85%B3%E7%B3%BB"><span class="toc-number">2.3.</span> <span class="toc-text">（3）模块间关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%884%EF%BC%89%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF%E7%82%B9"><span class="toc-number">2.4.</span> <span class="toc-text">（4）关键技术点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%885%EF%BC%89%E4%B8%8D%E8%B6%B3"><span class="toc-number">2.5.</span> <span class="toc-text">（5）不足</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%89%8D%E7%AB%AF%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91"><span class="toc-number">3.</span> <span class="toc-text">三、前端功能与实现逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">（1） 系统架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97"><span class="toc-number">3.2.</span> <span class="toc-text">（2） 核心功能模块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.2.1.</span> <span class="toc-text">1.  用户认证系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-MerkleTree%E6%9E%84%E5%BB%BA%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">3.2.2.</span> <span class="toc-text">2.  MerkleTree构建与可视化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%E5%8A%9F%E8%83%BD"><span class="toc-number">3.2.3.</span> <span class="toc-text">3.  数据验证功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E7%AE%A1%E7%90%86"><span class="toc-number">3.2.4.</span> <span class="toc-text">4.  历史记录管理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89%E6%8A%80%E6%9C%AF%E4%BA%AE%E7%82%B9"><span class="toc-number">3.3.</span> <span class="toc-text">（3）技术亮点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%884%EF%BC%89%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-number">3.4.</span> <span class="toc-text">（4）数据流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">四、总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/03/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/" title="MerkleTree可视化生成与验证平台"><img src="/image/%E5%93%88%E5%B8%8C%E6%A0%91.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MerkleTree可视化生成与验证平台"/></a><div class="content"><a class="title" href="/2025/03/03/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/" title="MerkleTree可视化生成与验证平台">MerkleTree可视化生成与验证平台</a><time datetime="2025-03-02T16:00:00.000Z" title="发表于 2025-03-03 00:00:00">2025-03-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/" title="回溯法求解集装箱装载"><img src="/image/2.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="回溯法求解集装箱装载"/></a><div class="content"><a class="title" href="/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/" title="回溯法求解集装箱装载">回溯法求解集装箱装载</a><time datetime="2025-02-25T16:00:00.000Z" title="发表于 2025-02-26 00:00:00">2025-02-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 By 今日上上签</div><div class="footer_custom_text">简简单单</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="12px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
