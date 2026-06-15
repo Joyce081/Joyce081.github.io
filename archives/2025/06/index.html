@@ -1,14 +1,15 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>六月 2025 | joyce081</title><meta name="author" content="今日上上签"><meta name="copyright" content="今日上上签"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="万念不能乱其心，坚刚不可夺其志">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>六月 2025 | Joyce081</title><meta name="author" content="Joyce081"><meta name="copyright" content="Joyce081"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="研究生科研笔记 — 实验记录 · 文献阅读 · 技术心得">
 <meta property="og:type" content="website">
 <meta property="og:title" content="六月 2025">
-<meta property="og:url" content="http://example.com/archives/2025/06/index.html">
-<meta property="og:site_name" content="joyce081">
-<meta property="og:description" content="万念不能乱其心，坚刚不可夺其志">
+<meta property="og:url" content="https://joyce081.github.io/archives/2025/06/index.html">
+<meta property="og:site_name" content="Joyce081">
+<meta property="og:description" content="研究生科研笔记 — 实验记录 · 文献阅读 · 技术心得">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/%E5%A4%B4%E5%83%8F%E7%8C%AB.jpg">
-<meta property="article:author" content="今日上上签">
+<meta property="og:image" content="https://joyce081.github.io/img/avatar.jpg">
+<meta property="article:author" content="Joyce081">
+<meta property="article:tag" content="科研,文献阅读,机器学习,算法,深度学习,论文笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/img/%E5%A4%B4%E5%83%8F%E7%8C%AB.jpg"><link rel="shortcut icon" href="/img/%E5%BC%A0.svg"><link rel="canonical" href="http://example.com/archives/2025/06/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+<meta name="twitter:image" content="https://joyce081.github.io/img/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.svg"><link rel="canonical" href="https://joyce081.github.io/archives/2025/06/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
     (() => {
       
     const saveToLocal = {
@@ -81,7 +82,10 @@
 
       const theme = saveToLocal.get('theme')
     
-          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+          const hour = new Date().getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
         
       
       const asideStatus = saveToLocal.get('aside-status')
@@ -141,14 +145,56 @@
   isHighlightShrink: false,
   isToc: false,
   pageType: 'archive'
-}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/8.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/%E5%A4%B4%E5%83%8F%E7%8C%AB.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">joyce081</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><h1 class="title-seo">六月 2025</h1></header><main class="layout" id="content-inner"><div id="archive"><div class="article-sort-title">全部文章 - 1</div><div class="article-sort"><div class="article-sort-item year">2025</div><div class="article-sort-item"><a class="article-sort-item-img" href="/2025/06/25/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/" title="MerkleTree可视化生成与验证平台"><img src="/image/%E5%93%88%E5%B8%8C%E6%A0%91.png" alt="MerkleTree可视化生成与验证平台" onerror="this.onerror=null;this.src='/img/404.jpg'"></a><div class="article-sort-item-info"><div class="article-sort-item-time"><i class="far fa-calendar-alt"></i><time class="post-meta-date-created" datetime="2025-06-24T16:00:00.000Z" title="发表于 2025-06-25 00:00:00">2025-06-25</time></div><a class="article-sort-item-title" href="/2025/06/25/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/" title="MerkleTree可视化生成与验证平台">MerkleTree可视化生成与验证平台</a></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F%E7%8C%AB.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">今日上上签</div><div class="author-info-description">万念不能乱其心，坚刚不可夺其志</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://blog.csdn.net/L19541216?spm=1000.2115.3001.5343"><i class="fab fa-github"></i><span>跟我来</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Joyce081?tab=repositories" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/mengjiaoz717@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/25/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/" title="MerkleTree可视化生成与验证平台"><img src="/image/%E5%93%88%E5%B8%8C%E6%A0%91.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MerkleTree可视化生成与验证平台"/></a><div class="content"><a class="title" href="/2025/06/25/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/" title="MerkleTree可视化生成与验证平台">MerkleTree可视化生成与验证平台</a><time datetime="2025-06-24T16:00:00.000Z" title="发表于 2025-06-25 00:00:00">2025-06-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/" title="回溯法求解集装箱装载"><img src="/image/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="回溯法求解集装箱装载"/></a><div class="content"><a class="title" href="/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/" title="回溯法求解集装箱装载">回溯法求解集装箱装载</a><time datetime="2025-02-25T16:00:00.000Z" title="发表于 2025-02-26 00:00:00">2025-02-26</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+}</script><style>
+  html, body {
+    overflow-x: hidden;
+  }
+  #video-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    object-fit: cover;
+    pointer-events: none;
+  }
+  /* 导航栏加强 */
+  #nav {
+    background: #fff !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    height: 60px;
+  }
+  #nav .menus_items .menus_item > a {
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  #nav .menus_items .menus_item > a:hover {
+    background: rgba(0,0,0,0.06);
+  }
+  /* CSDN 猴子图标 */
+  .social-icon[href*="csdn"] i {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background: url('/img/csdn-icon.png') center/contain no-repeat;
+    vertical-align: -0.1em;
+  }
+  .social-icon[href*="csdn"] i::before {
+    content: none;
+  }
+</style>
+<meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background: transparent;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/broken-friend-link.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E5%AE%9E%E9%AA%8C%E7%A0%94%E7%A9%B6/"><i class="fa-fw fas fa-flask"></i><span> 实验研究</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/"><i class="fa-fw fas fa-book-open"></i><span> 文献阅读</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user-graduate"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E5%AE%9E%E9%AA%8C%E7%A0%94%E7%A9%B6/"><i class="fa-fw fas fa-flask"></i><span> 实验研究</span></a></div><div class="menus_item"><a class="site-page" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/"><i class="fa-fw fas fa-book-open"></i><span> 文献阅读</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user-graduate"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><h1 class="title-seo">六月 2025</h1></header><main class="layout" id="content-inner"><div id="archive"><div class="article-sort-title">全部文章 - 1</div><div class="article-sort"><div class="article-sort-item year">2025</div><div class="article-sort-item"><a class="article-sort-item-img" href="/2025/06/25/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/" title="MerkleTree可视化生成与验证平台"><img src="/image/merkle-tree-cover.png" alt="MerkleTree可视化生成与验证平台" onerror="this.onerror=null;this.src='/img/broken-post-image.jpg'"></a><div class="article-sort-item-info"><div class="article-sort-item-time"><i class="far fa-calendar-alt"></i><time class="post-meta-date-created" datetime="2025-06-24T16:00:00.000Z" title="发表于 2025-06-25 00:00:00">2025-06-25</time></div><a class="article-sort-item-title" href="/2025/06/25/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/" title="MerkleTree可视化生成与验证平台">MerkleTree可视化生成与验证平台</a></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/broken-friend-link.gif'" alt="avatar"/></div><div class="author-info-name">Joyce081</div><div class="author-info-description">坚刚不可夺其志，万念不可乱其心</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Joyce081?tab=repositories"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://blog.csdn.net/L19541216?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><i class="fas fa-blog" style="color: #fc5531;"></i></a><a class="social-icon" href="mailto:mengjiaoz717@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎交流讨论，一起进步 🎓</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/06/15/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%E7%A4%BA%E4%BE%8B/" title="论文笔记示例"><img src="/img/site-background.png" onerror="this.onerror=null;this.src='/img/broken-post-image.jpg'" alt="论文笔记示例"/></a><div class="content"><a class="title" href="/2026/06/15/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%E7%A4%BA%E4%BE%8B/" title="论文笔记示例">论文笔记示例</a><time datetime="2026-06-14T16:00:00.000Z" title="发表于 2026-06-15 00:00:00">2026-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/25/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/" title="MerkleTree可视化生成与验证平台"><img src="/image/merkle-tree-cover.png" onerror="this.onerror=null;this.src='/img/broken-post-image.jpg'" alt="MerkleTree可视化生成与验证平台"/></a><div class="content"><a class="title" href="/2025/06/25/MerkleTree%E5%8F%AF%E8%A7%86%E5%8C%96%E7%94%9F%E6%88%90%E4%B8%8E%E9%AA%8C%E8%AF%81%E5%B9%B3%E5%8F%B0/" title="MerkleTree可视化生成与验证平台">MerkleTree可视化生成与验证平台</a><time datetime="2025-06-24T16:00:00.000Z" title="发表于 2025-06-25 00:00:00">2025-06-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/" title="回溯法求解集装箱装载"><img src="/image/backtracking-container.jpg" onerror="this.onerror=null;this.src='/img/broken-post-image.jpg'" alt="回溯法求解集装箱装载"/></a><div class="content"><a class="title" href="/2025/02/26/%E5%9B%9E%E6%BA%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E9%9B%86%E8%A3%85%E7%AE%B1%E8%A3%85%E8%BD%BD/" title="回溯法求解集装箱装载">回溯法求解集装箱装载</a><time datetime="2025-02-25T16:00:00.000Z" title="发表于 2025-02-26 00:00:00">2025-02-26</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             
           </div>
           <ul class="card-category-list" id="aside-cat-list">
-            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">简单算法</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E7%B1%BBJavaWeb%E9%A1%B9%E7%9B%AE/"><span class="card-category-list-name">算法类JavaWeb项目</span><span class="card-category-list-count">1</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Butterfly/" style="font-size: 1.1em; color: #999">Butterfly</a> <a href="/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a></div></div><div class="card-widget card-archives">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AE%9E%E9%AA%8C%E7%A0%94%E7%A9%B6/"><span class="card-category-list-name">实验研究</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/"><span class="card-category-list-name">文献阅读</span><span class="card-category-list-count">1</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 1.1em; color: #999">可视化</a> <a href="/tags/%E5%9B%9E%E6%BA%AF%E6%B3%95/" style="font-size: 1.1em; color: #999">回溯法</a> <a href="/tags/JavaWeb/" style="font-size: 1.1em; color: #999">JavaWeb</a> <a href="/tags/MerkleTree/" style="font-size: 1.1em; color: #999">MerkleTree</a> <a href="/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" style="font-size: 1.1em; color: #999">论文笔记</a> <a href="/tags/%E7%A4%BA%E4%BE%8B/" style="font-size: 1.1em; color: #999">示例</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.1em; color: #999">算法</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -156,6 +202,15 @@
     </div>
   
     <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/06/">
+            <span class="card-archive-list-date">
+              六月 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
       
         <li class="card-archive-list-item">
           <a class="card-archive-list-link" href="/archives/2025/06/">
@@ -176,4 +231,63 @@
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">2</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-06-29T02:21:31.147Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 By 今日上上签</div><div class="footer_custom_text">简简单单</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="12px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">3</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-06-15T11:20:50.228Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 - 2026 By Joyce081</div><div class="footer_custom_text">Stay Hungry, Stay Foolish</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><video id="video-bg" autoplay muted loop playsinline>
+  <source src="/img/bgm1.mp4" type="video/mp4">
+</video>
+<script>
+  var emailLink = document.querySelector('.social-icon[title="Email"]');
+  if (emailLink) {
+    emailLink.setAttribute('href', 'mailto:mengjiaoz717@gmail.com');
+    emailLink.removeAttribute('target');
+  }
+</script>
+<script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
